@@ -12,17 +12,42 @@ export default function Home() {
   const passgen = generator({special: includeSpecial, length: length});
 
   useEffect(() => {
-    setPassword(passgen);
     const params = new URLSearchParams(window.location.search);
+    const urlLength = params.get('length');
+    const urlSpecial = params.get('special');
+    if (urlLength) {
+      setLength(Number(urlLength));
+    }
+    if (urlSpecial) {
+      setIncludeSpecial(urlSpecial === 'true');
+    }
+    setPassword(passgen);
     params.set('length', length.toString());
+    params.set('special', includeSpecial.toString());
   }, [length, includeSpecial]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setLength(Number(event.target.value));
+    const newLength = Number(event.target.value);
+    setLength(newLength);
+
+    // Create a new URLSearchParams object
+    const params = new URLSearchParams(window.location.search);
+    // Set the new length
+    params.set('length', newLength.toString());
+    // Update the URL without causing a page refresh
+    window.history.pushState({}, '', '?' + params.toString());
   };
 
   const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    setIncludeSpecial(event.target.checked);
+    const newIncludeSpecial = event.target.checked;
+    setIncludeSpecial(newIncludeSpecial);
+
+    // Create a new URLSearchParams object
+    const params = new URLSearchParams(window.location.search);
+    // Set the new special
+    params.set('special', newIncludeSpecial.toString());
+    // Update the URL without causing a page refresh
+    window.history.pushState({}, '', '?' + params.toString());
   };
 
   function Copy() {
