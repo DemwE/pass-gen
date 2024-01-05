@@ -2,19 +2,20 @@
 
 import React, {useState, useEffect} from 'react';
 import {generator} from "@/app/generator";
-import { toast } from 'sonner';
+import {toast} from 'sonner';
+
 export default function Home() {
   const [length, setLength] = useState(16);
   const [min, max] = [1, 128];
   const [password, setPassword] = useState('');
   const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
-  const passgen = generator({special: includeSpecial, length: length})
 
   useEffect(() => {
+    const passgen = generator({special: includeSpecial, length: length});
     setPassword(passgen);
     const params = new URLSearchParams(window.location.search);
     params.set('length', length.toString());
-  }, [length]);
+  }, [length, includeSpecial]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLength(Number(event.target.value));
