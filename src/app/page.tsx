@@ -44,7 +44,7 @@ export default function Home() {
             </button>
           </div>
         </div>
-        <label className="block text-md font-medium text-gray-700">Password Length</label>
+        <label className="block text-md font-medium text-gray-700 leading-5">Password Length</label>
         <div className="flex space-x-2">
           <input
             type="number"
@@ -63,7 +63,7 @@ export default function Home() {
             onChange={handleChange}
           />
         </div>
-        <div className="flex space-x-2 leading-3">
+        <div className="flex space-x-2 leading-5">
           <label className="block text-md font-medium text-gray-700">Include Special Characters</label>
           <input
             type="checkbox"
