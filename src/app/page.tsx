@@ -8,16 +8,19 @@ export default function Home() {
   const [min, max] = [1, 128];
   const [password, setPassword] = useState('');
   const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
+  const passgen = generator({special: includeSpecial, length: length})
 
   useEffect(() => {
-    setPassword(generator({special: includeSpecial, length: length})); // Use the state variable here
-  }, [length, includeSpecial]); // Add the state variable to the dependency array
+    setPassword(passgen);
+    const params = new URLSearchParams(window.location.search);
+    params.set('length', length.toString());
+  }, [length]);
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setLength(Number(event.target.value));
   };
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => { // New event handler
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     setIncludeSpecial(event.target.checked);
   };
 
@@ -35,7 +38,7 @@ export default function Home() {
             <button onClick={() => Copy()}>
               <i className="fa-regular fa-copy text-xl"></i>
             </button>
-            <button onClick={() => setPassword(generator({special: true, length: length}))}>
+            <button onClick={() => setPassword(passgen)}>
               <i className="fa-regular fa-arrows-rotate text-xl"></i>
             </button>
           </div>
