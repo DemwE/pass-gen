@@ -9,9 +9,9 @@ export default function Home() {
   const [min, max] = [1, 128];
   const [password, setPassword] = useState('');
   const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
+  const passgen = generator({special: includeSpecial, length: length});
 
   useEffect(() => {
-    const passgen = generator({special: includeSpecial, length: length});
     setPassword(passgen);
     const params = new URLSearchParams(window.location.search);
     params.set('length', length.toString());
