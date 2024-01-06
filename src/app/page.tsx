@@ -1,6 +1,7 @@
 "use client";
 
 import React, { useState, useEffect } from "react";
+import ThemeSwitch from "@/components/themeSwitch";
 import { generator } from "@/app/generator";
 import { toast } from "sonner";
 
@@ -57,29 +58,30 @@ export default function Home() {
 	}
 
 	return (
-		<main className="min-h-screen p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
-			<div className="bg-zinc-50 rounded-xl p-10 space-y-3 text-gray-950">
+		<main className="min-h-screen p-8 sm:p-12 md:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
+			<div className="bg-zinc-50 rounded-xl p-10 space-y-3 text-gray-950 dark:bg-gray-800 dark:text-zinc-50">
+				<ThemeSwitch />
 				<h1 className="text-center text-3xl font-medium tracking-wide">
 					Password Generator
 				</h1>
-				<div className="w-full rounded-xl p-3 border-2 border-black flex leading-3 justify-between space-x-3">
+				<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
 					<p className="text-xl font-medium truncate w-full">{password}</p>
 					<div className="flex space-x-2">
 						<button onClick={() => Copy()}>
-							<i className="fa-regular fa-copy text-xl"></i>
+							<i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
 						</button>
 						<button onClick={() => setPassword(passgen)}>
-							<i className="fa-regular fa-arrows-rotate text-xl"></i>
+							<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
 						</button>
 					</div>
 				</div>
-				<label className="block text-md font-medium text-gray-700 leading-5">
+				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
 					Password Length
 				</label>
 				<div className="flex space-x-2">
 					<input
 						type="number"
-						className="block text-sm font-medium- w-20 border-2 border-black rounded-xl h-10 text-center"
+						className="block text-sm font-medium- w-20 border-2 border-black dark:border-zinc-50 rounded-xl h-10 text-center bg-zinc-200 dark:bg-gray-700"
 						value={length}
 						min={min}
 						max={max}
@@ -95,7 +97,7 @@ export default function Home() {
 					/>
 				</div>
 				<div className="flex space-x-2 leading-5">
-					<label className="block text-md font-medium text-gray-700">
+					<label className="block text-md font-medium text-gray-700 dark:text-zinc-300">
 						Include Special Characters
 					</label>
 					<input
