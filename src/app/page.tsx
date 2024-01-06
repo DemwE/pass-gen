@@ -6,56 +6,58 @@ import { generator } from "@/app/generator";
 import { toast } from "sonner";
 
 export default function Home() {
-	const [length, setLength] = useState(16);
-	const [min, max] = [1, 128];
-	const [password, setPassword] = useState("");
-	const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
-	const passgen = generator({ special: includeSpecial, length: length });
+  const [length, setLength] = useState(16);
+  const [min, max] = [1, 128];
+  const [password, setPassword] = useState("");
+  const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
+  const passgen = generator({ special: includeSpecial, length: length });
 
-	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const urlLength = params.get("length");
-		const urlSpecial = params.get("special");
-		if (urlLength) {
-			setLength(Number(urlLength));
-		}
-		if (urlSpecial) {
-			setIncludeSpecial(urlSpecial === "true");
-		}
-		setPassword(passgen);
-		params.set("length", length.toString());
-		params.set("special", includeSpecial.toString());
-	}, [length, includeSpecial]);
+  useEffect(() => {
+    updateFromUrlParams();
+    setPassword(passgen);
+  }, [length, includeSpecial]);
 
-	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newLength = Number(event.target.value);
-		setLength(newLength);
+  const updateFromUrlParams = () => {
+    const params = new URLSearchParams(window.location.search);
+    const urlLength = params.get("length");
+    const urlSpecial = params.get("special");
+    if (urlLength) {
+      setLength(Number(urlLength));
+    }
+    if (urlSpecial) {
+      setIncludeSpecial(urlSpecial === "true");
+    }
+    params.set("length", length.toString());
+    params.set("special", includeSpecial.toString());
+  }
 
-		// Create a new URLSearchParams object
-		const params = new URLSearchParams(window.location.search);
-		// Set the new length
-		params.set("length", newLength.toString());
-		// Update the URL without causing a page refresh
-		window.history.pushState({}, "", "?" + params.toString());
-	};
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newLength = Number(event.target.value);
+    setLength(newLength);
+    updateUrlParams("length", newLength.toString());
+  };
 
-	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-		const newIncludeSpecial = event.target.checked;
-		setIncludeSpecial(newIncludeSpecial);
+  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const newIncludeSpecial = event.target.checked;
+    setIncludeSpecial(newIncludeSpecial);
+    updateUrlParams("special", newIncludeSpecial.toString());
+  };
 
-		// Create a new URLSearchParams object
-		const params = new URLSearchParams(window.location.search);
-		// Set the new special
-		params.set("special", newIncludeSpecial.toString());
-		// Update the URL without causing a page refresh
-		window.history.pushState({}, "", "?" + params.toString());
-	};
+  const updateUrlParams = (key: string, value: string) => {
+    const params = new URLSearchParams(window.location.search);
+    params.set(key, value);
+    window.history.pushState({}, "", "?" + params.toString());
+  }
 
-	function Copy() {
-		navigator.clipboard
-			.writeText(password)
-			.then(() => toast.success("Copied to clipboard!"));
-	}
+  const copyToClipboard = () => {
+    navigator.clipboard
+      .writeText(password)
+      .then(() => toast.success("Copied to clipboard!"));
+  }
+
+  const generatePassword = () => {
+    setPassword(passgen);
+  }
 
 	return (
 		<main className="min-h-screen p-8 sm:p-12 md:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
@@ -66,17 +68,17 @@ export default function Home() {
 				</h1>
 				<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
 					<p className="text-xl font-medium truncate w-full">{password}</p>
-					<div className="flex space-x-2">
-						<button onClick={() => Copy()}>
-							<i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
-						</button>
-						<button onClick={() => setPassword(passgen)}>
-							<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
-						</button>
-					</div>
-				</div>
-				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
-					Password Length
+          <div className="flex space-x-2">
+            <button onClick={copyToClipboard}>
+              <i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
+            </button>
+            <button onClick={generatePassword}>
+              <i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
+            </button>
+          </div>
+        </div>
+        <label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
+          Password Length
 				</label>
 				<div className="flex space-x-2">
 					<input
