@@ -3,40 +3,44 @@
 import React, { useState, useEffect } from "react";
 import ThemeSwitch from "@/components/themeSwitch";
 import { toast } from "sonner";
-import { generatePassword, updateUrlParams, updateFromUrlParams } from "@/app/passwordAndUrlParamHandler";
+import {
+	generatePassword,
+	updateUrlParams,
+	updateFromUrlParams,
+} from "@/app/passwordAndUrlParamHandler";
 
 export default function Home() {
-  const [length, setLength] = useState(16);
-  const [min, max] = [1, 128];
-  const [password, setPassword] = useState("");
-  const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
+	const [length, setLength] = useState(16);
+	const [min, max] = [1, 128];
+	const [password, setPassword] = useState("");
+	const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
 
-  useEffect(() => {
-    updateFromUrlParams(setLength, setIncludeSpecial, length, includeSpecial);
-    setPassword(generatePassword(includeSpecial, length));
-  }, [length, includeSpecial]);
+	useEffect(() => {
+		updateFromUrlParams(setLength, setIncludeSpecial, length, includeSpecial);
+		setPassword(generatePassword(includeSpecial, length));
+	}, [length, includeSpecial]);
 
-  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newLength = Number(event.target.value);
-    setLength(newLength);
-    updateUrlParams("length", newLength.toString());
-  };
+	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newLength = Number(event.target.value);
+		setLength(newLength);
+		updateUrlParams("length", newLength.toString());
+	};
 
-  const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-    const newIncludeSpecial = event.target.checked;
-    setIncludeSpecial(newIncludeSpecial);
-    updateUrlParams("special", newIncludeSpecial.toString());
-  };
+	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+		const newIncludeSpecial = event.target.checked;
+		setIncludeSpecial(newIncludeSpecial);
+		updateUrlParams("special", newIncludeSpecial.toString());
+	};
 
-  const copyToClipboard = () => {
-    navigator.clipboard
-      .writeText(password)
-      .then(() => toast.success("Copied to clipboard!"));
-  }
+	const copyToClipboard = () => {
+		navigator.clipboard
+			.writeText(password)
+			.then(() => toast.success("Copied to clipboard!"));
+	};
 
-  const generateNewPassword = () => {
-    setPassword(generatePassword(includeSpecial, length));
-  }
+	const generateNewPassword = () => {
+		setPassword(generatePassword(includeSpecial, length));
+	};
 
 	return (
 		<main className="min-h-screen p-8 sm:p-12 md:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
@@ -47,19 +51,19 @@ export default function Home() {
 				</h1>
 				<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
 					<p className="text-xl font-medium truncate w-full">{password}</p>
-          <div className="flex space-x-2">
-            <button onClick={copyToClipboard}>
-              <i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
-            </button>
-            <button onClick={generateNewPassword}>
-              <i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
-            </button>
-          </div>
-        </div>
-        <label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
-          Password Length
-        </label>
-        <div className="flex space-x-2">
+					<div className="flex space-x-2">
+						<button onClick={copyToClipboard}>
+							<i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
+						</button>
+						<button onClick={generateNewPassword}>
+							<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
+						</button>
+					</div>
+				</div>
+				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
+					Password Length
+				</label>
+				<div className="flex space-x-2">
 					<input
 						type="number"
 						className="block text-sm font-medium- w-20 border-2 border-black dark:border-zinc-50 rounded-xl h-10 text-center bg-zinc-200 dark:bg-gray-700"
