@@ -6,6 +6,7 @@ import React from "react";
 import { Toaster } from "sonner";
 
 export const metadata: Metadata = {
+	metadataBase: new URL("https://passgen.demwe.me/"),
 	title: "PassGen",
 	description: "Password Generator",
 	icons: {
