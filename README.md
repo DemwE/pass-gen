@@ -9,7 +9,7 @@ PassGen is a password generator built with TypeScript and React. It allows users
 
 ## Website
 
-You can access the website at [https://demwe-passgen.netlify.app/](https://demwe-passgen.netlify.app/)
+You can access the website at [https://passgen.demwe.me/](https://demwe-passgen.netlify.app/)
 
 ## Local Development
 
