@@ -12,10 +12,10 @@ export default function Custom404() {
 			<button
 				type="button"
 				className="text-white bg-gradient-to-r from-cyan-500 to-blue-500 hover:bg-gradient-to-bl focus:ring-4 focus:outline-none focus:ring-cyan-300 dark:focus:ring-cyan-800 font-medium rounded-lg text-sm px-5 py-2.5 text-center me-2 mb-2"
-        onClick={() => window.history.back()}
+				onClick={() => window.history.back()}
 			>
-        <h1 className="text-lg">Go Back</h1>
-      </button>
+				<h1 className="text-lg">Go Back</h1>
+			</button>
 		</main>
 	);
 }

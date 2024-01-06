@@ -7,12 +7,15 @@ import {
 	generatePassword,
 	updateUrlParams,
 } from "@/app/passwordAndUrlParamHandler";
+import { calculatePasswordStrength } from "@/app/calculatePasswordStrength";
 
 export default function Home() {
 	const [length, setLength] = useState(16);
 	const [min, max] = [1, 128];
 	const [password, setPassword] = useState("");
 	const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
+	const [passwordStrength, setPasswordStrength] = useState(0); // New state variable
+	const [isInputActive, setIsInputActive] = useState(false);
 
 	useEffect(() => {
 		const params = new URLSearchParams(window.location.search);
@@ -24,11 +27,31 @@ export default function Home() {
 		if (urlSpecial) {
 			setIncludeSpecial(urlSpecial === "true");
 		}
-	}, []); // Empty dependency array means this effect runs once after the first render
+	}, []);
 
 	useEffect(() => {
-		setPassword(generatePassword(includeSpecial, length));
+		const newPassword = generatePassword(includeSpecial, length);
+		setPassword(newPassword);
 	}, [length, includeSpecial]);
+
+	useEffect(() => {
+		if (!isInputActive) {
+			const newStrength = calculatePasswordStrength(password).id;
+			setPasswordStrength(newStrength);
+		}
+	}, [password, isInputActive]);
+
+	const handleMouseDown = () => {
+		setIsInputActive(true);
+	};
+
+	const handleMouseUp = () => {
+		setIsInputActive(false);
+	};
+
+	const handleBlur = () => {
+		setIsInputActive(false);
+	};
 
 	const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
 		const newLength = Number(event.target.value);
@@ -59,15 +82,30 @@ export default function Home() {
 				<h1 className="text-center text-3xl font-medium tracking-wide">
 					Password Generator
 				</h1>
-				<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
-					<p className="text-xl font-medium truncate w-full">{password}</p>
-					<div className="flex space-x-2">
-						<button onClick={copyToClipboard}>
-							<i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
-						</button>
-						<button onClick={generateNewPassword}>
-							<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
-						</button>
+				<div className="space-y-1">
+					<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
+						<p className="text-xl font-medium truncate w-full">{password}</p>
+						<div className="flex space-x-2">
+							<button onClick={copyToClipboard}>
+								<i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
+							</button>
+							<button onClick={generateNewPassword}>
+								<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
+							</button>
+						</div>
+					</div>
+					<div className="w-full bg-zinc-200 dark:bg-zinc-500 h-2 rounded">
+						<div
+							className={`h-full rounded ${
+								passwordStrength === 1
+									? "bg-red-500 w-1/3"
+									: passwordStrength === 2
+									  ? "bg-yellow-500 w-2/3"
+									  : passwordStrength === 3
+										  ? "bg-green-500 w-full"
+										  : ""
+							}`}
+						></div>
 					</div>
 				</div>
 				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
@@ -81,6 +119,9 @@ export default function Home() {
 						min={min}
 						max={max}
 						onChange={handleChange}
+						onMouseDown={handleMouseDown}
+						onMouseUp={handleMouseUp}
+						onBlur={handleBlur}
 					/>
 					<input
 						type="range"
@@ -89,6 +130,9 @@ export default function Home() {
 						min={min}
 						max={max}
 						onChange={handleChange}
+						onMouseDown={handleMouseDown}
+						onMouseUp={handleMouseUp}
+						onBlur={handleBlur}
 					/>
 				</div>
 				<div className="flex space-x-2 leading-5">
