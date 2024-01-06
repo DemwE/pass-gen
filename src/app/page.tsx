@@ -51,7 +51,7 @@ export default function Home() {
   };
 
   function Copy() {
-    navigator.clipboard.writeText(password).then(toast.success('Copied to clipboard!'));
+    navigator.clipboard.writeText(password).then(() => toast.success('Copied to clipboard!'));
   }
 
   return (
