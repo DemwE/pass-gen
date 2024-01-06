@@ -94,7 +94,7 @@ export default function Home() {
 							</button>
 						</div>
 					</div>
-					<div className="w-full bg-zinc-200 dark:bg-zinc-500 h-2 rounded">
+					<div className="w-full bg-zinc-200 dark:bg-zinc-400 h-2 rounded">
 						<div
 							className={`h-full rounded ${
 								passwordStrength === 1

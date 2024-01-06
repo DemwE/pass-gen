@@ -22,7 +22,7 @@ export default function ThemeSwitch() {
 	return (
 		<div className="relative float-right bottom-2" onClick={toggleTheme}>
 			{theme === "light" ? (
-				<i className="fa-light fa-moon text-xl"></i>
+				<i className="fa-regular fa-moon text-xl"></i>
 			) : (
 				<i className="fa-sharp fa-regular fa-sun-bright text-xl text-yellow-400"></i>
 			)}
