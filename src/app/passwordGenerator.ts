@@ -5,7 +5,7 @@ interface Args {
 	length: number;
 }
 
-export function generator(args: Args): string {
+export function passwordGenerator(args: Args): string {
 	const characters =
 		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
 	const specialCharacters = "!@#$%^&*()_-+=<>?";

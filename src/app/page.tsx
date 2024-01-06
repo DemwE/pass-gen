@@ -2,34 +2,19 @@
 
 import React, { useState, useEffect } from "react";
 import ThemeSwitch from "@/components/themeSwitch";
-import { generator } from "@/app/generator";
 import { toast } from "sonner";
+import { generatePassword, updateUrlParams, updateFromUrlParams } from "@/app/passwordAndUrlParamHandler";
 
 export default function Home() {
   const [length, setLength] = useState(16);
   const [min, max] = [1, 128];
   const [password, setPassword] = useState("");
   const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
-  const passgen = generator({ special: includeSpecial, length: length });
 
   useEffect(() => {
-    updateFromUrlParams();
-    setPassword(passgen);
+    updateFromUrlParams(setLength, setIncludeSpecial, length, includeSpecial);
+    setPassword(generatePassword(includeSpecial, length));
   }, [length, includeSpecial]);
-
-  const updateFromUrlParams = () => {
-    const params = new URLSearchParams(window.location.search);
-    const urlLength = params.get("length");
-    const urlSpecial = params.get("special");
-    if (urlLength) {
-      setLength(Number(urlLength));
-    }
-    if (urlSpecial) {
-      setIncludeSpecial(urlSpecial === "true");
-    }
-    params.set("length", length.toString());
-    params.set("special", includeSpecial.toString());
-  }
 
   const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
     const newLength = Number(event.target.value);
@@ -43,20 +28,14 @@ export default function Home() {
     updateUrlParams("special", newIncludeSpecial.toString());
   };
 
-  const updateUrlParams = (key: string, value: string) => {
-    const params = new URLSearchParams(window.location.search);
-    params.set(key, value);
-    window.history.pushState({}, "", "?" + params.toString());
-  }
-
   const copyToClipboard = () => {
     navigator.clipboard
       .writeText(password)
       .then(() => toast.success("Copied to clipboard!"));
   }
 
-  const generatePassword = () => {
-    setPassword(passgen);
+  const generateNewPassword = () => {
+    setPassword(generatePassword(includeSpecial, length));
   }
 
 	return (
@@ -72,15 +51,15 @@ export default function Home() {
             <button onClick={copyToClipboard}>
               <i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
             </button>
-            <button onClick={generatePassword}>
+            <button onClick={generateNewPassword}>
               <i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
             </button>
           </div>
         </div>
         <label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
           Password Length
-				</label>
-				<div className="flex space-x-2">
+        </label>
+        <div className="flex space-x-2">
 					<input
 						type="number"
 						className="block text-sm font-medium- w-20 border-2 border-black dark:border-zinc-50 rounded-xl h-10 text-center bg-zinc-200 dark:bg-gray-700"
