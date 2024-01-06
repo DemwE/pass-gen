@@ -68,7 +68,11 @@ export default function Home() {
 	const copyToClipboard = () => {
 		navigator.clipboard
 			.writeText(password)
-			.then(() => toast.success("Password was copied to clipboard!"));
+			.then(() => toast.success("Password was copied to clipboard!"))
+			.catch((error) => {
+				console.error("Failed to copy text: ", error);
+				toast.error("Failed to copy password to clipboard.");
+			});
 	};
 
 	const generateNewPassword = () => {
