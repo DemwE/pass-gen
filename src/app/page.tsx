@@ -6,7 +6,6 @@ import { toast } from "sonner";
 import {
 	generatePassword,
 	updateUrlParams,
-	updateFromUrlParams,
 } from "@/app/passwordAndUrlParamHandler";
 
 export default function Home() {
@@ -16,7 +15,18 @@ export default function Home() {
 	const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
 
 	useEffect(() => {
-		updateFromUrlParams(setLength, setIncludeSpecial, length, includeSpecial);
+		const params = new URLSearchParams(window.location.search);
+		const urlLength = params.get("length");
+		const urlSpecial = params.get("special");
+		if (urlLength) {
+			setLength(Number(urlLength));
+		}
+		if (urlSpecial) {
+			setIncludeSpecial(urlSpecial === "true");
+		}
+	}, []); // Empty dependency array means this effect runs once after the first render
+
+	useEffect(() => {
 		setPassword(generatePassword(includeSpecial, length));
 	}, [length, includeSpecial]);
 
