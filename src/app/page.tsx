@@ -5,6 +5,7 @@ import ThemeSwitch from "@/components/themeSwitch";
 import { toast } from "sonner";
 import {
 	generatePassword,
+	getUrlParams,
 	updateUrlParams,
 } from "@/app/passwordAndUrlParamHandler";
 import { calculatePasswordStrength } from "@/app/calculatePasswordStrength";
@@ -13,26 +14,40 @@ export default function Home() {
 	const [length, setLength] = useState(16);
 	const [min, max] = [1, 128];
 	const [password, setPassword] = useState("");
-	const [includeSpecial, setIncludeSpecial] = useState(false); // New state variable
-	const [passwordStrength, setPasswordStrength] = useState(0); // New state variable
+	const [includeSpecial, setIncludeSpecial] = useState(true);
+	const [includeUppercase, setIncludeUppercase] = useState(true);
+	const [includeLowercase, setIncludeLowercase] = useState(true);
+	const [includeNumbers, setIncludeNumbers] = useState(true);
+	const [passwordStrength, setPasswordStrength] = useState(0);
 	const [isInputActive, setIsInputActive] = useState(false);
 
 	useEffect(() => {
-		const params = new URLSearchParams(window.location.search);
-		const urlLength = params.get("length");
-		const urlSpecial = params.get("special");
-		if (urlLength) {
-			setLength(Number(urlLength));
+		const { length, special, uppercase, lowercase, numbers } = getUrlParams();
+		if (length) {
+			setLength(length);
 		}
-		if (urlSpecial) {
-			setIncludeSpecial(urlSpecial === "true");
-		}
+		setIncludeSpecial(special);
+		setIncludeUppercase(uppercase);
+		setIncludeLowercase(lowercase);
+		setIncludeNumbers(numbers);
 	}, []);
 
 	useEffect(() => {
-		const newPassword = generatePassword(includeSpecial, length);
+		const newPassword = generatePassword(
+			includeSpecial,
+			length,
+			includeUppercase,
+			includeLowercase,
+			includeNumbers,
+		);
 		setPassword(newPassword);
-	}, [length, includeSpecial]);
+	}, [
+		length,
+		includeSpecial,
+		includeUppercase,
+		includeLowercase,
+		includeNumbers,
+	]);
 
 	useEffect(() => {
 		if (!isInputActive) {
@@ -59,10 +74,60 @@ export default function Home() {
 		updateUrlParams("length", newLength.toString());
 	};
 
-	const handleCheckboxChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+	const handleSpecialCheckboxChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
 		const newIncludeSpecial = event.target.checked;
+		if (
+			!newIncludeSpecial &&
+			!(includeUppercase || includeLowercase || includeNumbers)
+		) {
+			return;
+		}
 		setIncludeSpecial(newIncludeSpecial);
 		updateUrlParams("special", newIncludeSpecial.toString());
+	};
+
+	const handleUppercaseCheckboxChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const newIncludeUppercase = event.target.checked;
+		if (
+			!newIncludeUppercase &&
+			!(includeSpecial || includeLowercase || includeNumbers)
+		) {
+			return;
+		}
+		setIncludeUppercase(newIncludeUppercase);
+		updateUrlParams("uppercase", newIncludeUppercase.toString());
+	};
+
+	const handleLowercaseCheckboxChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const newIncludeLowercase = event.target.checked;
+		if (
+			!newIncludeLowercase &&
+			!(includeSpecial || includeUppercase || includeNumbers)
+		) {
+			return;
+		}
+		setIncludeLowercase(newIncludeLowercase);
+		updateUrlParams("lowercase", newIncludeLowercase.toString());
+	};
+
+	const handleNumbersCheckboxChange = (
+		event: React.ChangeEvent<HTMLInputElement>,
+	) => {
+		const newIncludeNumbers = event.target.checked;
+		if (
+			!newIncludeNumbers &&
+			!(includeSpecial || includeUppercase || includeLowercase)
+		) {
+			return;
+		}
+		setIncludeNumbers(newIncludeNumbers);
+		updateUrlParams("numbers", newIncludeNumbers.toString());
 	};
 
 	const copyToClipboard = () => {
@@ -76,7 +141,15 @@ export default function Home() {
 	};
 
 	const generateNewPassword = () => {
-		setPassword(generatePassword(includeSpecial, length));
+		setPassword(
+			generatePassword(
+				includeSpecial,
+				length,
+				includeUppercase,
+				includeLowercase,
+				includeNumbers,
+			),
+		);
 	};
 
 	return (
@@ -139,9 +212,8 @@ export default function Home() {
 						onBlur={handleBlur}
 					/>
 				</div>
-				<div className="flex space-x-2 leading-5">
+				<div className="flex space-x-2 leading-5 max-md:flex-col">
 					<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
-						{" "}
 						Special Characters
 					</label>
 					<label className="relative inline-flex items-center mb-5 cursor-pointer">
@@ -150,7 +222,46 @@ export default function Home() {
 							value=""
 							className="sr-only peer"
 							checked={includeSpecial}
-							onChange={handleCheckboxChange}
+							onChange={handleSpecialCheckboxChange}
+						/>
+						<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+					</label>
+					<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
+						Lowercase Characters
+					</label>
+					<label className="relative inline-flex items-center mb-5 cursor-pointer">
+						<input
+							type="checkbox"
+							value=""
+							className="sr-only peer"
+							checked={includeLowercase}
+							onChange={handleLowercaseCheckboxChange}
+						/>
+						<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+					</label>
+					<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
+						Uppercase Characters
+					</label>
+					<label className="relative inline-flex items-center mb-5 cursor-pointer">
+						<input
+							type="checkbox"
+							value=""
+							className="sr-only peer"
+							checked={includeUppercase}
+							onChange={handleUppercaseCheckboxChange}
+						/>
+						<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
+					</label>
+					<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
+						Number Characters
+					</label>
+					<label className="relative inline-flex items-center mb-5 cursor-pointer">
+						<input
+							type="checkbox"
+							value=""
+							className="sr-only peer"
+							checked={includeNumbers}
+							onChange={handleNumbersCheckboxChange}
 						/>
 						<div className="w-11 h-6 bg-gray-200 peer-focus:outline-none peer-focus:ring-4 peer-focus:ring-blue-300 dark:peer-focus:ring-blue-800 rounded-full peer dark:bg-gray-700 peer-checked:after:translate-x-full rtl:peer-checked:after:-translate-x-full peer-checked:after:border-white after:content-[''] after:absolute after:top-[2px] after:start-[2px] after:bg-white after:border-gray-300 after:border after:rounded-full after:w-5 after:h-5 after:transition-all dark:border-gray-600 peer-checked:bg-blue-600"></div>
 					</label>

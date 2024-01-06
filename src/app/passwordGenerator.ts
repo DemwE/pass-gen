@@ -1,17 +1,29 @@
 import { randomBytes } from "crypto";
-
 interface Args {
-	special: boolean;
+	includeSpecial: boolean;
 	length: number;
+	includeUppercase: boolean;
+	includeLowercase: boolean;
+	includeNumbers: boolean;
 }
 
 export function passwordGenerator(args: Args): string {
-	const characters =
-		"abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789";
+	const lowercaseCharacters = "abcdefghijklmnopqrstuvwxyz";
+	const uppercaseCharacters = "ABCDEFGHIJKLMNOPQRSTUVWXYZ";
+	const numberCharacters = "0123456789";
 	const specialCharacters = "!@#$%^&*()_-+=<>?";
 
-	let availableCharacters = characters;
-	if (args.special) {
+	let availableCharacters: string = "";
+	if (args.includeLowercase) {
+		availableCharacters += lowercaseCharacters;
+	}
+	if (args.includeUppercase) {
+		availableCharacters += uppercaseCharacters;
+	}
+	if (args.includeNumbers) {
+		availableCharacters += numberCharacters;
+	}
+	if (args.includeSpecial) {
 		availableCharacters += specialCharacters;
 	}
 
