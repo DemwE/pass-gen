@@ -18,7 +18,7 @@ export const metadata: Metadata = {
 	},
 	openGraph: {
 		url: "https://passgen.demwe.me/",
-	}
+	},
 };
 
 const inter = Inter({ subsets: ["latin"] });
