@@ -154,7 +154,7 @@ export default function Home() {
 
 	return (
 		<main className="min-h-screen p-8 sm:p-12 md:p-18 lg:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
-			<div className="bg-zinc-50 rounded-xl p-10 space-y-3 text-gray-950 dark:bg-gray-800 dark:text-zinc-50">
+			<div className="bg-zinc-50 rounded-xl p-10 space-y-3 text-gray-950 dark:bg-gray-800 dark:text-zinc-50 animate-fade-down animate-once animate-duration-[800ms] animate-ease-in-out">
 				<ThemeSwitch />
 				<h1 className="text-center text-3xl font-medium tracking-wide">
 					Password Generator
