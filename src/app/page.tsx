@@ -165,7 +165,7 @@ export default function Home() {
             <p className="text-xl font-medium truncate w-full">{password}</p>
             <div className="flex space-x-2">
               <button onClick={copyToClipboard}>
-                <i className="fa-regular fa-copy text-xl dark:text-zinc-300"></i>
+                <i className="fa-regular fa-clipboard text-xl dark:text-zinc-300"></i>
               </button>
               <button onClick={generateNewPassword}>
                 <i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300"></i>
