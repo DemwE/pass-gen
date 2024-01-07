@@ -7,8 +7,8 @@ import {
 	generatePassword,
 	getUrlParams,
 	updateUrlParams,
-} from "@/app/passwordAndUrlParamHandler";
-import { calculatePasswordStrength } from "@/app/calculatePasswordStrength";
+} from "@/app/utils/passwordAndUrlParamHandler";
+import { calculatePasswordStrength } from "@/app/utils/calculatePasswordStrength";
 
 export default function Home() {
 	const [length, setLength] = useState(16);
