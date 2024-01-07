@@ -1,6 +1,6 @@
 "use client";
 
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import ThemeSwitch from "@/components/themeSwitch";
 import { toast } from "sonner";
 import {
@@ -20,6 +20,7 @@ export default function Home() {
 	const [includeNumbers, setIncludeNumbers] = useState(true);
 	const [passwordStrength, setPasswordStrength] = useState(0);
 	const [isInputActive, setIsInputActive] = useState(false);
+	const strengthRef = useRef<HTMLParagraphElement | null>(null);
 
 	useEffect(() => {
 		const { length, special, uppercase, lowercase, numbers } = getUrlParams();
@@ -55,6 +56,17 @@ export default function Home() {
 			setPasswordStrength(newStrength);
 		}
 	}, [password, isInputActive]);
+
+	useEffect(() => {
+		if (strengthRef.current) {
+			strengthRef.current.classList.remove("animate-fade", "animate-once");
+		}
+
+		void strengthRef.current?.offsetWidth;
+		if (strengthRef.current) {
+			strengthRef.current.classList.add("animate-fade", "animate-once");
+		}
+	}, [passwordStrength]);
 
 	const handleMouseDown = () => {
 		setIsInputActive(true);
@@ -186,7 +198,10 @@ export default function Home() {
 							}`}
 						></div>
 					</div>
-					<p className="float-right text-gray-700 dark:text-zinc-300">
+					<p
+						ref={strengthRef}
+						className="float-right text-gray-700 dark:text-zinc-300"
+					>
 						{passwordStrength === 0
 							? "Very weak"
 							: passwordStrength === 1
