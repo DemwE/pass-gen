@@ -289,6 +289,7 @@ export default function Home() {
 							<a
 								href="https://github.com/DemwE/pass-gen"
 								className="text-blue-500 dark:text-blue-300"
+								target="_blank"
 							>
 								Project site
 							</a>
