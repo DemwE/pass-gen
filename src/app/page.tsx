@@ -153,7 +153,7 @@ export default function Home() {
 	};
 
 	return (
-		<main className="min-h-screen p-8 sm:p-12 md:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
+		<main className="min-h-screen p-8 sm:p-12 md:p-18 lg:p-24 bg-gradient-to-tr from-sky-500 to-indigo-500">
 			<div className="bg-zinc-50 rounded-xl p-10 space-y-3 text-gray-950 dark:bg-gray-800 dark:text-zinc-50">
 				<ThemeSwitch />
 				<h1 className="text-center text-3xl font-medium tracking-wide">
@@ -214,7 +214,7 @@ export default function Home() {
 				</div>
 				<div>
 					<div>
-						<div className="flex space-x-2 leading-5 max-md:flex-col">
+						<div className="flex md:space-x-2 leading-5 max-md:flex-col">
 							<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
 								Special Characters
 							</label>
