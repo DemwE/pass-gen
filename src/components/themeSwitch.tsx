@@ -1,13 +1,15 @@
 import React, { useState, useEffect, useRef } from "react";
 
 export default function ThemeSwitch() {
-	const [theme, setTheme] = useState(
-		window.matchMedia &&
-		window.matchMedia("(prefers-color-scheme: dark)").matches
-			? "dark"
-			: "light",
-	);
+	const [theme, setTheme] = useState("light");
 	const iconRef = useRef<HTMLElement | null>(null);
+
+	useEffect(() => {
+		const prefersDarkMode =
+			window.matchMedia &&
+			window.matchMedia("(prefers-color-scheme: dark)").matches;
+		setTheme(prefersDarkMode ? "dark" : "light");
+	}, []);
 
 	useEffect(() => {
 		if (theme === "dark") {
