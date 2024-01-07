@@ -177,12 +177,12 @@ export default function Home() {
 								passwordStrength === 1
 									? "bg-red-500 w-1/4"
 									: passwordStrength === 2
-										? "bg-yellow-500 w-1/2"
-										: passwordStrength === 3
-											? "bg-green-500 w-3/4"
-											: passwordStrength === 4
-												? "bg-green-700 w-full"
-												: "bg-zinc-200 dark:bg-zinc-400 w-0"
+									  ? "bg-yellow-500 w-1/2"
+									  : passwordStrength === 3
+										  ? "bg-green-500 w-3/4"
+										  : passwordStrength === 4
+											  ? "bg-green-700 w-full"
+											  : "bg-zinc-200 dark:bg-zinc-400 w-0"
 							}`}
 						></div>
 					</div>
@@ -190,14 +190,14 @@ export default function Home() {
 						{passwordStrength === 0
 							? "Very weak"
 							: passwordStrength === 1
-								? "Weak"
-								: passwordStrength === 2
-									? "Medium"
-									: passwordStrength === 3
-										? "Strong"
-										: passwordStrength === 4
-											? "Very strong"
-											: ""}
+							  ? "Weak"
+							  : passwordStrength === 2
+								  ? "Medium"
+								  : passwordStrength === 3
+									  ? "Strong"
+									  : passwordStrength === 4
+										  ? "Very strong"
+										  : ""}
 					</p>
 				</div>
 				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
