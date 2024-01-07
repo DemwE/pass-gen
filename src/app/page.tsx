@@ -51,7 +51,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (!isInputActive) {
-			const newStrength = calculatePasswordStrength(password).id;
+			const newStrength = calculatePasswordStrength(password).score;
 			setPasswordStrength(newStrength);
 		}
 	}, [password, isInputActive]);
@@ -175,15 +175,30 @@ export default function Home() {
 						<div
 							className={`h-full rounded ${
 								passwordStrength === 1
-									? "bg-red-500 w-1/3"
+									? "bg-red-500 w-1/4"
 									: passwordStrength === 2
-									  ? "bg-yellow-500 w-2/3"
+									  ? "bg-yellow-500 w-1/2"
 									  : passwordStrength === 3
-										  ? "bg-green-500 w-full"
-										  : ""
+										  ? "bg-green-500 w-3/4"
+										  : passwordStrength === 4
+											  ? "bg-green-700 w-full"
+											  : ""
 							}`}
 						></div>
 					</div>
+					<p className="float-right">
+						{passwordStrength === 0
+							? "Very weak"
+							: passwordStrength === 1
+							  ? "Weak"
+							  : passwordStrength === 2
+								  ? "Medium"
+								  : passwordStrength === 3
+									  ? "Strong"
+									  : passwordStrength === 4
+										  ? "Very strong"
+										  : ""}
+					</p>
 				</div>
 				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
 					Password Length

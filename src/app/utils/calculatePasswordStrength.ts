@@ -1,4 +1,5 @@
-import { passwordStrength } from "check-password-strength";
+import zxcvbn from "zxcvbn";
+
 export const calculatePasswordStrength = (password: string) => {
-	return passwordStrength(password);
+	return zxcvbn(password);
 };
