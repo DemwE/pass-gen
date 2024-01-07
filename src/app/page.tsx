@@ -173,31 +173,31 @@ export default function Home() {
 					</div>
 					<div className="w-full bg-zinc-200 dark:bg-zinc-400 h-2 rounded">
 						<div
-							className={`h-full rounded ${
+							className={`h-full rounded transition-width duration-300 ease-in-out ${
 								passwordStrength === 1
 									? "bg-red-500 w-1/4"
 									: passwordStrength === 2
-									  ? "bg-yellow-500 w-1/2"
-									  : passwordStrength === 3
-										  ? "bg-green-500 w-3/4"
-										  : passwordStrength === 4
-											  ? "bg-green-700 w-full"
-											  : ""
+										? "bg-yellow-500 w-1/2"
+										: passwordStrength === 3
+											? "bg-green-500 w-3/4"
+											: passwordStrength === 4
+												? "bg-green-700 w-full"
+												: "bg-zinc-200 dark:bg-zinc-400 w-0"
 							}`}
 						></div>
 					</div>
-					<p className="float-right">
+					<p className="float-right text-gray-700 dark:text-zinc-300">
 						{passwordStrength === 0
 							? "Very weak"
 							: passwordStrength === 1
-							  ? "Weak"
-							  : passwordStrength === 2
-								  ? "Medium"
-								  : passwordStrength === 3
-									  ? "Strong"
-									  : passwordStrength === 4
-										  ? "Very strong"
-										  : ""}
+								? "Weak"
+								: passwordStrength === 2
+									? "Medium"
+									: passwordStrength === 3
+										? "Strong"
+										: passwordStrength === 4
+											? "Very strong"
+											: ""}
 					</p>
 				</div>
 				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
