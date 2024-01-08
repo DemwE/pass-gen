@@ -12,7 +12,7 @@ import { calculatePasswordStrength } from "@/app/utils/calculatePasswordStrength
 
 export default function Home() {
 	const [length, setLength] = useState(16);
-	const [min, max] = [1, 128];
+	const [minLength, maxLength] = [1, 128];
 	const [password, setPassword] = useState("");
 	const [includeSpecial, setIncludeSpecial] = useState(true);
 	const [includeUppercase, setIncludeUppercase] = useState(true);
@@ -223,8 +223,8 @@ export default function Home() {
 						type="number"
 						className="block text-sm font-medium- w-20 border-2 border-black dark:border-zinc-50 rounded-xl h-10 text-center bg-zinc-200 dark:bg-gray-700"
 						value={length}
-						min={min}
-						max={max}
+						min={minLength}
+						max={maxLength}
 						onChange={handleChange}
 						onMouseDown={handleMouseDown}
 						onMouseUp={handleMouseUp}
@@ -234,8 +234,8 @@ export default function Home() {
 						type="range"
 						className="block w-full"
 						value={length}
-						min={min}
-						max={max}
+						min={minLength}
+						max={maxLength}
 						onChange={handleChange}
 						onMouseDown={handleMouseDown}
 						onMouseUp={handleMouseUp}
