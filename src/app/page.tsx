@@ -7,8 +7,8 @@ import {
 	generatePassword,
 	getUrlParams,
 	updateUrlParams,
-} from "@/app/utils/passwordAndUrlParamHandler";
-import { passwordStrengthIndicator } from "@/app/utils/passwordStrengthIndicator";
+} from "@/utils/passwordAndUrlParamHandler";
+import { passwordStrengthIndicator } from "@/utils/passwordStrengthIndicator";
 
 export default function Home() {
 	const [length, setLength] = useState(16);

@@ -1,4 +1,4 @@
-import { passwordGenerator } from "@/app/utils/passwordGenerator";
+import { passwordGenerator } from "@/utils/passwordGenerator";
 
 export const generatePassword = (
 	includeSpecial: boolean,
