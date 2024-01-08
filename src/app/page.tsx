@@ -172,31 +172,39 @@ export default function Home() {
 					Password Generator
 				</h1>
 				<div className="space-y-1">
-					<div className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
+					<div
+						className="w-full rounded-xl p-3 border-2 border-black dark:border-zinc-50 flex leading-3 justify-between space-x-3 bg-zinc-200 dark:bg-gray-700">
 						<p className="text-xl font-medium truncate w-full">{password}</p>
 						<div className="flex space-x-2">
 							<button onClick={copyToClipboard}>
-								<i className="fa-regular fa-clipboard text-xl dark:text-zinc-300 transition hover:-translate-1 hover:scale-110"></i>
+								<i
+									className="fa-regular fa-clipboard text-xl dark:text-zinc-300 transition hover:-translate-1 hover:scale-110"></i>
 							</button>
 							<button onClick={generateNewPassword}>
-								<i className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300 transition hover:-translate-1 hover:scale-110"></i>
+								<i
+									className="fa-regular fa-arrows-rotate text-xl dark:text-zinc-300 transition hover:-translate-1 hover:scale-110"></i>
 							</button>
 						</div>
 					</div>
 					<div className="w-full bg-zinc-200 dark:bg-zinc-400 h-2 rounded">
 						<div
 							className={`h-full rounded transition-width duration-300 ease-in-out ${
-								passwordStrength === 0
-									? "bg-zinc-200 dark:bg-zinc-400 w-0"
-									: passwordStrength === 1
-									  ? "bg-red-500 w-1/4"
-									  : passwordStrength === 2
-										  ? "bg-yellow-500 w-1/2"
-										  : passwordStrength === 3
-											  ? "bg-green-500 w-3/4"
-											  : passwordStrength === 4
-												  ? "bg-green-700 w-full"
-												  : "bg-red-500 w-full"
+								(() => {
+									switch (passwordStrength) {
+										case 0:
+											return "bg-zinc-200 dark:bg-zinc-400 w-0";
+										case 1:
+											return "bg-red-500 w-1/4";
+										case 2:
+											return "bg-yellow-500 w-1/2";
+										case 3:
+											return "bg-green-500 w-3/4";
+										case 4:
+											return "bg-green-700 w-full";
+										default:
+											return "bg-red-500 w-full";
+									}
+								})()
 							}`}
 						></div>
 					</div>
@@ -204,17 +212,22 @@ export default function Home() {
 						ref={strengthRef}
 						className="float-right text-gray-700 dark:text-zinc-300"
 					>
-						{passwordStrength === 0
-							? "Very weak"
-							: passwordStrength === 1
-							  ? "Weak"
-							  : passwordStrength === 2
-								  ? "Medium"
-								  : passwordStrength === 3
-									  ? "Strong"
-									  : passwordStrength === 4
-										  ? "Very strong"
-										  : "Unknown"}
+						{(() => {
+							switch (passwordStrength) {
+								case 0:
+									return "Very weak";
+								case 1:
+									return "Weak";
+								case 2:
+									return "Medium";
+								case 3:
+									return "Strong";
+								case 4:
+									return "Very strong";
+								default:
+									return "Unknown";
+							}
+						})()}
 					</p>
 				</div>
 				<label className="block text-md font-medium text-gray-700 leading-5 dark:text-zinc-300">
@@ -253,7 +266,6 @@ export default function Home() {
 							<label className="relative inline-flex items-center mb-5 cursor-pointer">
 								<input
 									type="checkbox"
-									value=""
 									className="sr-only peer"
 									checked={includeSpecial}
 									onChange={handleSpecialCheckboxChange}
@@ -266,7 +278,6 @@ export default function Home() {
 							<label className="relative inline-flex items-center mb-5 cursor-pointer">
 								<input
 									type="checkbox"
-									value=""
 									className="sr-only peer"
 									checked={includeLowercase}
 									onChange={handleLowercaseCheckboxChange}
@@ -279,7 +290,6 @@ export default function Home() {
 							<label className="relative inline-flex items-center mb-5 cursor-pointer">
 								<input
 									type="checkbox"
-									value=""
 									className="sr-only peer"
 									checked={includeUppercase}
 									onChange={handleUppercaseCheckboxChange}
@@ -292,7 +302,6 @@ export default function Home() {
 							<label className="relative inline-flex items-center mb-5 cursor-pointer">
 								<input
 									type="checkbox"
-									value=""
 									className="sr-only peer"
 									checked={includeNumbers}
 									onChange={handleNumbersCheckboxChange}
