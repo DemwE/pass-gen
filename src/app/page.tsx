@@ -8,7 +8,7 @@ import {
 	getUrlParams,
 	updateUrlParams,
 } from "@/app/utils/passwordAndUrlParamHandler";
-import { calculatePasswordStrength } from "@/app/utils/calculatePasswordStrength";
+import { passwordStrengthIndicator } from "@/app/utils/passwordStrengthIndicator";
 
 export default function Home() {
 	const [length, setLength] = useState(16);
@@ -52,7 +52,7 @@ export default function Home() {
 
 	useEffect(() => {
 		if (!isInputActive) {
-			const newStrength = calculatePasswordStrength(password).score;
+			const newStrength = passwordStrengthIndicator(password).score;
 			setPasswordStrength(newStrength);
 		}
 	}, [password, isInputActive]);
